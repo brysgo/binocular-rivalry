@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binocular Rivalry WebXR Demo</title>
+    <title>Binocular Rivalry WebVR Demo</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 </head>
 <body>
-    <a-scene vr-mode-ui="enabled: true">
-        <!-- Stereo Rendering for Each Eye -->
-        <a-entity camera="eye: left" id="left-eye">
-            <a-circle position="0 1.6 -2" rotation="0 0 0" radius="0.5" color="#FF0000"></a-circle>
+    <a-scene>
+        <!-- Left Eye View -->
+        <a-entity id="left-eye" position="-0.2 1.6 -2">
+            <a-plane position="0 0 0" rotation="0 0 0" width="1" height="1" color="#FF0000"></a-plane>
         </a-entity>
 
-        <a-entity camera="eye: right" id="right-eye">
-            <a-box position="0 1.6 -2" rotation="0 0 0" width="1" height="1" depth="0.1" color="#00FFFF"></a-box>
+        <!-- Right Eye View -->
+        <a-entity id="right-eye" position="0.2 1.6 -2">
+            <a-plane position="0 0 0" rotation="0 0 0" width="1" height="1" color="#00FFFF"></a-plane>
         </a-entity>
 
         <!-- VR Sky -->
