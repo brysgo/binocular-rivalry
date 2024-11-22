@@ -4,69 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Binocular Rivalry WebXR Demo</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 </head>
 <body>
-    <canvas id="xr-canvas"></canvas>
-    <script>
-        async function initializeWebXR() {
-            const canvas = document.getElementById('xr-canvas');
-            const gl = canvas.getContext('webgl', { xrCompatible: true });
-            
-            if (navigator.xr) {
-                try {
-                    const xrSession = await navigator.xr.requestSession('immersive-vr');
-                    xrSession.updateRenderState({ baseLayer: new XRWebGLLayer(xrSession, gl) });
+    <a-scene vr-mode-ui="enabled: true">
+        <!-- Stereo Rendering for Each Eye -->
+        <a-entity camera="eye: left" id="left-eye">
+            <a-circle position="0 1.6 -2" rotation="0 0 0" radius="0.5" color="#FF0000"></a-circle>
+        </a-entity>
 
-                    const referenceSpace = await xrSession.requestReferenceSpace('local');
-                    const onXRFrame = (time, frame) => {
-                        let session = frame.session;
-                        const pose = frame.getViewerPose(referenceSpace);
+        <a-entity camera="eye: right" id="right-eye">
+            <a-box position="0 1.6 -2" rotation="0 0 0" width="1" height="1" depth="0.1" color="#00FFFF"></a-box>
+        </a-entity>
 
-                        gl.bindFramebuffer(gl.FRAMEBUFFER, xrSession.renderState.baseLayer.framebuffer);
-                        gl.clearColor(0.8, 0.8, 0.8, 1.0);
-                        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-                        if (pose) {
-                            for (const view of pose.views) {
-                                const viewport = xrSession.renderState.baseLayer.getViewport(view);
-                                gl.viewport(viewport.x, viewport.y, viewport.width, viewport.height);
-
-                                // Different rendering logic for each eye
-                                if (view.eye === 'left') {
-                                    // Render left eye view - e.g., a red circle
-                                    renderLeftEye(gl);
-                                } else if (view.eye === 'right') {
-                                    // Render right eye view - e.g., a blue box
-                                    renderRightEye(gl);
-                                }
-                            }
-                        }
-
-                        session.requestAnimationFrame(onXRFrame);
-                    };
-
-                    xrSession.requestAnimationFrame(onXRFrame);
-                } catch (e) {
-                    console.error("Failed to create immersive VR session", e);
-                }
-            } else {
-                console.error("WebXR not supported");
-            }
-        }
-
-        function renderLeftEye(gl) {
-            // Placeholder rendering logic for left eye
-            gl.clearColor(1.0, 0.0, 0.0, 1.0); // Red color for left eye
-            gl.clear(gl.COLOR_BUFFER_BIT);
-        }
-
-        function renderRightEye(gl) {
-            // Placeholder rendering logic for right eye
-            gl.clearColor(0.0, 1.0, 1.0, 1.0); // Cyan color for right eye
-            gl.clear(gl.COLOR_BUFFER_BIT);
-        }
-
-        initializeWebXR();
-    </script>
+        <!-- VR Sky -->
+        <a-sky color="#ECECEC"></a-sky>
+    </a-scene>
 </body>
 </html>
