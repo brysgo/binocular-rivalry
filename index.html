@@ -22,23 +22,5 @@
         <!-- VR Sky -->
         <a-sky color="#ECECEC"></a-sky>
     </a-scene>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const leftEye = document.getElementById('left-eye');
-            const rightEye = document.getElementById('right-eye');
-
-            // Simulating alternating rivalry by changing visibility
-            setInterval(() => {
-                if (leftEye.getAttribute('visible') === false) {
-                    leftEye.setAttribute('visible', true);
-                    rightEye.setAttribute('visible', false);
-                } else {
-                    leftEye.setAttribute('visible', false);
-                    rightEye.setAttribute('visible', true);
-                }
-            }, 1000); // 1000 ms for switching every second
-        });
-    </script>
 </body>
 </html>
